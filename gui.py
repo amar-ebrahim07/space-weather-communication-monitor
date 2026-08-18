@@ -174,9 +174,11 @@ if st.session_state.mode == "simulation":
     flr_selector = st.select_slider("Solar Flare", ["R0", "R1", "R2", "R3", "R4", "R5"])
     gst_selector =  st.select_slider("Geomagnetic Storm", ["G0", "G1", "G2", "G3", "G4", "G5"])
     frequency = st.slider("Frequency (Hz)", 1, 10000)
+    amplitude = st.slider("Amplitude", 0.01, 1.0)
 
     time = signals.generate_time(0.02, 100000)
-    signal = signals.generate_sine(time, 0.4, frequency, 0)
+    signal = signals.generate_sine(time, amplitude, frequency, 0)
+    original = signal
 
     R = int(flr_selector[1])
     G = int(gst_selector[1])
@@ -215,8 +217,8 @@ if st.session_state.mode == "simulation":
     5: {0: 0.50, 1: 0.53, 2: 0.55, 3: 0.58, 4: 0.60, 5: 0.65}
     }
 
-
-    signal = attenuation.attenuate(signal, time, fade_freq)
+    if R != 0 or G != 0:
+        signal = attenuation.attenuate(signal, time, fade_freq)
 
     blackout_signal = signal.copy()
 
@@ -236,15 +238,26 @@ if st.session_state.mode == "simulation":
 
         signal = blackout_signal
 
+    col1, col2 = st.columns(2, border=True)
+    with col2:
+        fig, ax = plt.subplots()
+        ax.plot(time, signal)
+        ax.set_xlim(0,0.02)
+        ax.set_xlabel("Time (s)")
+        ax.set_ylabel("Amplitude")
+        ax.set_title("After")
+        ax.grid(True)
+        st.pyplot(fig)
 
-    fig, ax = plt.subplots()
-    ax.plot(time, signal)
-    ax.set_xlim(0,0.02)
-    ax.set_xlabel("Time (s)")
-    ax.set_ylabel("Amplitude")
-    ax.set_title("Simulator")
-    ax.grid(True)
-    st.pyplot(fig)
+    with col1:
+        fig, ax = plt.subplots()
+        ax.plot(time, original)
+        ax.set_xlim(0,0.02)
+        ax.set_xlabel("Time (s)")
+        ax.set_ylabel("Amplitude")
+        ax.set_title("Before")
+        ax.grid(True)
+        st.pyplot(fig)
 
     st.write("------------------")
     st.subheader("Illustrative Simulator")
