@@ -1,8 +1,8 @@
 # Space Weather & Communication Monitor
 
-A Python project that uses NASA's DONKI API to analyze space-weather activity and demonstrate its potential impact on communications.
+A Python project using NASA's DONKI API to analyze space-weather activity and demonstrate its potential impact on communications.
 
-The project includes **Live Mode**, **Simulation Mode**, and an **Illustrative Simulator** designed for both technical and non-technical audiences.
+The project includes **Live Mode**, **Simulation Mode**, and an **Illustrative Simulator**.
 
 ## Features
 
@@ -12,10 +12,10 @@ The project includes **Live Mode**, **Simulation Mode**, and an **Illustrative S
 * 📊 Calculates a communications impact level
 * 📈 Visualizes space-weather activity
 * 🖥️ Interactive Streamlit dashboard
-* 📡 Simulates communication-signal degradation
-* 🎛️ Adjustable R-scale and G-scale conditions
-* 📻 Adjustable signal frequency
-* 📶 Simulates noise and attenuation
+* 📡 Models communication-signal degradation
+* 🎛️ Uses R/G-scale conditions
+* 📻 Adjustable frequency and amplitude
+* 📶 Simulates noise, attenuation, and fading
 * 🚫 Simulates communication blackouts
 * 🎨 Interactive illustrative communication simulator
 
@@ -33,40 +33,24 @@ The project includes **Live Mode**, **Simulation Mode**, and an **Illustrative S
 
 ### Live Mode
 
-NASA DONKI → Space-weather data → KPI analysis → Impact assessment
+NASA DONKI → Space-weather data → KPI analysis → R/G classification → Impact assessment → Signal impact visualization
 
 ### Simulation Mode
 
-R/G Scale
-↓
-Impact Parameters
-↓
-Noise + Attenuation + Fading + Blackouts
-↓
-Simulated Signal
+R/G Scale → Impact Parameters → Noise + Attenuation + Fading + Blackouts → Simulated Signal
 
-Simulation parameters are project-specific engineering models intended to demonstrate potential communication effects rather than reproduce measured propagation data.
+Users can adjust R/G conditions, frequency, and amplitude to explore modeled communication effects.
 
 ### Illustrative Simulator
 
-A visual demonstration showing an HF communication link before and after a solar flare.
-
-Normal Signal
-↓
-Solar Flare
-↓
-Disturbed Ionosphere
-↓
-Degraded Communication
-
-Users can send a signal, introduce a solar flare, observe the changed communication environment, and reset the simulation.
+Normal Signal → Solar Flare → Degraded Communication
 
 ## NOAA Scales
 
 * **R0–R5** — Radio-blackout severity
 * **G0–G5** — Geomagnetic-storm severity
 
-Higher levels produce progressively stronger modeled effects.
+Higher levels produce stronger modeled effects.
 
 ## Setup
 
@@ -91,4 +75,4 @@ python -m streamlit run gui.py
 
 ## Note
 
-The impact assessment and simulation parameters are **project-specific models**, not official NASA or NOAA predictions. The project is an educational demonstration of the potential relationship between space weather and communication-system degradation.
+The impact assessment and signal-simulation parameters are **project-specific models**, not official NASA or NOAA predictions. The simulator is an educational demonstration of the potential relationship between space weather and communication-system degradation.

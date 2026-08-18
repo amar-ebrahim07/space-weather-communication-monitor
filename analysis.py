@@ -3,6 +3,8 @@ import pandas as pd
 import numpy as np
 import calendar
 from datetime import datetime
+import streamlit as st
+
 
 def make_df(type, start, end):
 
@@ -129,11 +131,6 @@ def riskanalysis(flr, cme, gst):
     details.append(gstnum)
     return details
 
-
-from datetime import datetime
-import calendar
-
-
 def monthly_event_counts(selected_date):
 
     selected_date = datetime.fromisoformat(selected_date)
@@ -146,7 +143,6 @@ def monthly_event_counts(selected_date):
     start = f"{year}-{month:02d}-01"
     end = f"{year}-{month:02d}-{num_days:02d}"
 
-    # Only 3 API calls
     flr = make_df(1, start, end)
     cme = make_df(2, start, end)
     gst = make_df(3, start, end)
@@ -177,3 +173,58 @@ def monthly_event_counts(selected_date):
         )
 
     return days, flare_counts, cme_counts, gst_counts
+
+
+
+
+def get_r_scale(flr):
+    if flr.empty:
+        return 0
+
+    flare = highflr(flr)["classType"]
+
+    if not flare:
+        return 0
+
+    flare_class = flare[0].upper()
+
+    try:
+        magnitude = float(flare[1:])
+    except (ValueError, TypeError):
+        return 0
+
+    if flare_class == "X":
+        if magnitude >= 20:
+            return 5
+        elif magnitude >= 10:
+            return 4
+        else:
+            return 3
+
+    elif flare_class == "M":
+        if magnitude >= 5:
+            return 2
+        else:
+            return 1
+
+    return 0
+
+
+def get_g_scale(gst):
+    maxkp = highkp(gst)
+
+    if maxkp is None:
+        return 0
+
+    if maxkp >= 9:
+        return 5
+    elif maxkp >= 8:
+        return 4
+    elif maxkp >= 7:
+        return 3
+    elif maxkp >= 6:
+        return 2
+    elif maxkp >= 5:
+        return 1
+
+    return 0
