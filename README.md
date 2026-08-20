@@ -64,7 +64,7 @@ pip install -r requirements.txt
 
 Run:
 
-python -m streamlit run gui.py
+ python -m streamlit run '.\Space Weather and Communication Monitor\gui.py'          
 
 **Never upload your personal API key to GitHub.**
 
